@@ -1,3 +1,5 @@
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 module.exports = {
 	entry:__dirname + '/src/js/index.js',
 	output:{
@@ -5,15 +7,21 @@ module.exports = {
 		filename:'index.js'
 	},
 	module: {
-        rules: [{
-            test: /\.less$/,
-            use: [{
-                loader: "style-loader"
-            }, {
-                loader: "css-loader"
-            }, {
-                loader: "less-loader"
-            }]
-        }]
-    }
+        rules: [
+	        {
+	            test: /\.less$/,
+	            use: ExtractTextPlugin.extract({
+		          fallback: "style-loader",
+		          use: "css-loader!less-loader"
+		        })
+	        }
+        ]
+    },
+    plugins:[
+    	new ExtractTextPlugin('[name].css'),
+    	new HtmlWebpackPlugin({
+	      filename: 'index.html',
+	      template: 'src/view/index.html'
+	    }),
+    ]
 }
