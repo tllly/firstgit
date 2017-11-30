@@ -1,24 +1,25 @@
 const path = require('path');
 const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const extractCSS = new ExtractTextPlugin('../css/[name].css');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
 	// context:process.cwd(),
 	entry:{
 		index:'./src/js/index.js',
-		about:'./src/js/action.js'
+		v:['jquery']
 	},
 	output:{
-		path:__dirname + '/built/js',
-		publicPath:'./',
-		filename:'[name].js'
+		path:__dirname + '/built/',
+		// publicPath:'./',
+		filename:'js/[name].js'
 	},
 	module: {
         rules: [
 	        {
 	            test: /\.less$/,
-	            use: ExtractTextPlugin.extract({
+	            use: extractCSS.extract({
 		          fallback: "style-loader",
 		          use: "css-loader!less-loader"
 		        })
@@ -27,11 +28,15 @@ module.exports = {
     },
     plugins:[
     	new webpack.HotModuleReplacementPlugin(),
-    	new ExtractTextPlugin('[name].css'),
+    	extractCSS,
     	new HtmlWebpackPlugin({
 	      filename: 'index.html',
 	      template: 'src/view/index.html'
 	    }),
+	    new webpack.ProvidePlugin({
+	    	$:'jquery'
+	    }),
+	    new webpack.optimize.CommonsChunkPlugin({names:['v']}),
 	    new HtmlWebpackPlugin({
 	      filename: 'about/index.html',
 	      template: 'src/view/about.html'
@@ -44,5 +49,6 @@ module.exports = {
 	    port:8888,
 	    inline:true,
 	    hot:true
-	}   
+	},
+	watch:true
 }
