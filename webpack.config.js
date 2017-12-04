@@ -13,8 +13,8 @@ module.exports = {
 	},
 	output:{
 		path:__dirname + '/built/',
-		// publicPath:'./',
-		filename:'js/[name].js'
+		publicPath:'./',
+		filename:'js/[name].[hash:8].js'
 	},
 	module: {
         rules: [
@@ -33,16 +33,16 @@ module.exports = {
     	new HtmlWebpackPlugin({
 	      filename: 'index.html',
 	      template: 'src/view/index.html',
-	      chunks: ['index',]
+	      chunks: ['v','index']
 	    }),
 	    new webpack.ProvidePlugin({
 	    	$:'jquery'
 	    }),
-	    new webpack.optimize.CommonsChunkPlugin({names:['v','action']}),
+	    new webpack.optimize.CommonsChunkPlugin({names:['v']}),
 	    new HtmlWebpackPlugin({
 	      filename: 'about/index.html',
 	      template: 'src/view/about.html',
-	      chunks: ['action','v']
+	      chunks: ['v','action']
 	    }),
     ],
     devServer:{
