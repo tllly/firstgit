@@ -7,23 +7,27 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 module.exports = {
 	// context:process.cwd(),
 	entry:{
-		index:'./src/js/index.js',
-		action:'./src/js/action.js',
+		index:'./src/js/entry/index.js',
+		action:'./src/js/entry/action.js',
 		v:['jquery']
 	},
 	output:{
 		path:__dirname + '/built/',
-		publicPath:'./',
+		// publicPath:'/built/',
 		filename:'js/[name].[hash:8].js'
 	},
 	module: {
         rules: [
 	        {
-	            test: /\.less$/,  
+	            test: /\.less$/,
 	            use: extractCSS.extract({
 		          fallback: "style-loader",
 		          use: "css-loader!less-loader"
 		        })
+	        },
+	        {
+	          test: /\.(png|jpg|gif)$/,
+	          loader: 'url-loader?limit=8192&name=./images/[name].[ext]?[hash]',
 	        }
         ]
     },
@@ -32,16 +36,17 @@ module.exports = {
     	extractCSS,
     	new HtmlWebpackPlugin({
 	      filename: 'index.html',
-	      template: 'src/view/index.html',
+	      template: 'src/index.html',
 	      chunks: ['v','index']
 	    }),
 	    new webpack.ProvidePlugin({
 	    	$:'jquery'
 	    }),
 	    new webpack.optimize.CommonsChunkPlugin({names:['v']}),
+
 	    new HtmlWebpackPlugin({
-	      filename: 'about/index.html',
-	      template: 'src/view/about.html',
+	      filename: 'view/about/index.html',
+	      template: 'src/view/about/about.html',
 	      chunks: ['v','action']
 	    }),
     ],
