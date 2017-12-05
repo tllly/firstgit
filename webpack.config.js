@@ -21,13 +21,14 @@ module.exports = {
 	        {
 	            test: /\.less$/,
 	            use: extractCSS.extract({
-		          fallback: "style-loader",
-		          use: "css-loader!less-loader"
+		          	fallback: "style-loader",
+		          	use: "css-loader!less-loader",
+				    publicPath: '../'
 		        })
 	        },
 	        {
 	          test: /\.(png|jpg|gif)$/,
-	          loader: 'url-loader?limit=8192&name=./images/[name].[ext]?[hash]',
+	          loader: 'url-loader?limit=8192&name=images/[name].[ext]?[hash]',
 	        }
         ]
     },
@@ -50,6 +51,11 @@ module.exports = {
 	      chunks: ['v','action']
 	    }),
     ],
+ //    resolve: {
+	//     alias: {
+	//           'assets': resolve('built/iamges')
+	//     }
+	// },
     devServer:{
         contentBase: "./built",
         open : true,
