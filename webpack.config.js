@@ -37,17 +37,17 @@ module.exports = {
     	extractCSS,
     	new HtmlWebpackPlugin({
 	      filename: 'index.html',
-	      template: 'src/index.html',
+	      template:'inline-html-withimg-loader!' + path.resolve(__dirname, 'src/index.html'),
 	      chunks: ['v','index']
 	    }),
 	    new webpack.ProvidePlugin({
 	    	$:'jquery'
 	    }),
-	    new webpack.optimize.CommonsChunkPlugin({names:['v']}),
+	    // new webpack.optimize.CommonsChunkPlugin({names:['v']}),
 
 	    new HtmlWebpackPlugin({
 	      filename: 'view/about/index.html',
-	      template: 'src/view/about/about.html',
+	      template:'inline-html-withimg-loader!' + path.resolve(__dirname, 'src/view/about/about.html')  ,
 	      chunks: ['v','action']
 	    }),
     ],
